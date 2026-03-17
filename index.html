@@ -1155,10 +1155,9 @@ document.getElementById('ai-input').addEventListener('keydown', function(e){
   if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendAIMessage(); }
 });
 
-// Pre-bake key — user never has to touch setup
-const _BAKED = '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';
-if(!getKey()) localStorage.setItem('ascend_oai_key', _BAKED);
-// Hide setup panel entirely — key is already in
+// Always force the baked key — never stale localStorage
+const _BAKED = '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';
+localStorage.setItem('ascend_oai_key', _BAKED);
 document.getElementById('key-panel').style.display = 'none';
 updateSageBadge();
 
