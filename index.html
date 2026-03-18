@@ -18,7 +18,7 @@
   --freq-daily:#3498db;--freq-weekly:#9b59b6;--freq-longterm:#c9922a;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html,body{width:100%;height:100%;height:-webkit-fill-available;background:#0a0a0c;overflow:hidden;}
+  html,body{width:100%;background:#0a0a0c;}
 body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;display:flex;justify-content:center;}
 #app{width:100%;max-width:480px;min-height:100vh;background:var(--bg);margin:0 auto;padding-top:calc(env(safe-area-inset-top,44px) + 50px);}
 .screen{display:none;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(90px + env(safe-area-inset-bottom,0px));}
@@ -612,18 +612,10 @@ function renderQuests(){
           ${qDesc?`<div class="quest-meta"><span class="freq-badge ${freqClass}">${freqLabel}</span><span class="quest-desc">${qDesc}</span></div>`:''}
         </div>
         <div class="quest-right"><div class="quest-xp">${done?'✓':'+'+qXp}</div></div>`;
-      // Single tap = complete. Double tap = instant toggle (complete ↔ incomplete)
-      let lastTap = 0;
+      // Tap to complete. Tap again to instantly undo.
       item.addEventListener('click', () => {
-        const now = Date.now();
-        const isDoubleTap = (now - lastTap) < 350;
-        lastTap = now;
-        if(isDoubleTap){
-          if(isQuestDone(q)) uncompleteQuest(q, item);
-          else completeQuest(q, item, atCap);
-        } else {
-          if(!isQuestDone(q)) completeQuest(q, item, atCap);
-        }
+        if(isQuestDone(q)) uncompleteQuest(q, item);
+        else completeQuest(q, item, atCap);
       });
       list.appendChild(item);
     });
