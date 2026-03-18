@@ -20,9 +20,9 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{width:100%;height:100%;height:-webkit-fill-available;background:#0a0a0c;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;display:flex;justify-content:center;}
-#app{width:100%;max-width:480px;height:100%;overflow:hidden;background:var(--bg);position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:calc(env(safe-area-inset-top,54px) + 20px);}
-.screen{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;padding:12px 0 calc(100px + env(safe-area-inset-bottom,0px)) 0;-webkit-overflow-scrolling:touch;}
-.screen.active{display:block;}
+#app{width:100%;max-width:480px;height:100%;overflow:hidden;background:var(--bg);position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:calc(env(safe-area-inset-top,54px) + 120px);}
+.screen{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;flex-direction:column;}
+.screen.active{display:flex;}
 
 /* TOPBAR */
 .topbar{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:10;}
@@ -38,7 +38,8 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 .nav-btn svg{width:18px;height:18px;}
 
 /* HOME */
-.hero-card{margin:20px 14px 0;background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:26px 20px;position:relative;overflow:hidden;}
+.screen-scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:0 0 calc(90px + env(safe-area-inset-bottom,0px)) 0;}
+  .hero-card{margin:20px 14px 0;background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:26px 20px;position:relative;overflow:hidden;}
 .hero-card::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%);pointer-events:none;}
 .hero-rank{font-family:'Cinzel',serif;font-size:10px;font-weight:600;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:5px;}
 .hero-name{font-family:'Cinzel',serif;font-size:26px;font-weight:900;color:var(--text);line-height:1;margin-bottom:3px;}
@@ -315,6 +316,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
     <div class="section-title">XP History (14 days)</div>
     <div id="history-list"></div>
   </div>
+  </div>
 </div>
 
 <!-- AI -->
@@ -328,7 +330,9 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
       <div class="ai-welcome-title">SAGE</div>
       <div class="ai-welcome-body">Your AI life coach, powered by Llama 3.3 70B.
 Free forever. No credit card. Just you and your goals.
-</div>
+
+Get a free key at console.groq.com
+then paste it above to get started.</div>
     </div>
   </div>
 
@@ -378,6 +382,7 @@ Free forever. No credit card. Just you and your goals.
     <button class="cz-danger-btn" onclick="confirmReset()">RESET ALL PROGRESS</button>
   </div>
   <div style="height:10px"></div>
+  </div>
 </div>
 
 <!-- BOTTOM NAV -->
@@ -615,7 +620,7 @@ function renderQuests(){
         item.addEventListener('click',()=>completeQuest(q,item,atCap));
       } else {
         item.style.cursor='pointer';
-        item.addEventListener('click',()=>uncompleteQuest(q));
+        item.addEventListener('click',()=>uncompleteQuest(q,item));
       }
       list.appendChild(item);
     });
@@ -687,7 +692,7 @@ function awardXP(amt,today){
   }
 }
 
-function uncompleteQuest(quest){
+function uncompleteQuest(quest, itemEl){
   const today=todayKey();const wk=weekKey();
   const freq=quest.frequency||'daily';
   const xp=Math.max(1,parseInt(quest.xp)||100);
@@ -714,9 +719,27 @@ function uncompleteQuest(quest){
   }
   state.level=getCurrentLevel();
   saveState();
+
+  // Instant DOM mutation — no full re-render flicker
+  if(itemEl){
+    itemEl.className='quest-item';
+    const check=itemEl.querySelector('.quest-check');
+    if(check){check.style.background='';check.style.borderColor='';const svg=check.querySelector('svg');if(svg)svg.style.display='none';}
+    const nameEl=itemEl.querySelector('.quest-name');
+    if(nameEl){nameEl.style.textDecoration='';nameEl.style.color='';}
+    const xpEl=itemEl.querySelector('.quest-xp');
+    if(xpEl)xpEl.textContent='+'+xp;
+    itemEl.style.background='';itemEl.style.borderColor='';
+    // Swap listener: was uncomplete, now complete
+    const newItem=itemEl.cloneNode(true);
+    itemEl.parentNode.replaceChild(newItem,itemEl);
+    const atCap=getTodayXP()>=(state.dailyCap||420)&&freq!=='longterm'&&freq!=='weekly';
+    newItem.addEventListener('click',()=>completeQuest(quest,newItem,atCap));
+  }
   showXPPop2(`-${xp} XP`);
-  showToast('Quest unmarked — XP removed');
-  renderQuests();
+  // Update counts without full re-render
+  const allQ=state.categories.flatMap(c=>c.quests);
+  document.getElementById('quest-count-label').textContent=`${allQ.filter(q=>isQuestDone(q)).length} completed · ${getTodayXP()} XP today`;
   renderHome();
 }
 
@@ -905,7 +928,7 @@ let aiHistory = [];
 let aiTyping  = false;
 
 // ── Key management ──
-const BAKED_KEY = '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';
+const BAKED_KEY = 'GROQ_API_KEY_HERE';
 function getKey(){ return BAKED_KEY; }
 
 // key panel removed — key is baked in
