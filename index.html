@@ -20,7 +20,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{width:100%;height:100%;height:-webkit-fill-available;background:#0a0a0c;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;display:flex;justify-content:center;}
-#app{width:100%;max-width:480px;height:100%;overflow:hidden;background:var(--bg);position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:calc(env(safe-area-inset-top,44px) + 4px);}
+#app{width:100%;max-width:480px;height:100%;overflow:hidden;background:var(--bg);position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:calc(env(safe-area-inset-top,50px) + 14px);}
 .screen{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;padding:0 0 calc(100px + env(safe-area-inset-bottom,0px)) 0;-webkit-overflow-scrolling:touch;}
 .screen.active{display:block;}
 
@@ -461,36 +461,36 @@ const RANKS=[
   {level:9,title:'Master',class:'Excellence is Habit'},
   {level:10,title:'Legend',class:'You Are The Standard'},
 ];
-const LEVEL_XP=[0,0,800,2000,4000,7500,12000,18500,27000,38000,52000];
+const LEVEL_XP=[0,0,1200,3500,8000,16000,28000,45000,68000,100000,150000];
 const CAT_COLORS=['#e74c3c','#e67e22','#f1c40f','#27ae60','#1abc9c','#3498db','#8e44ad','#e91e8c','#ff6b6b','#00b4d8'];
 const DEFAULT_CATEGORIES=[
   {id:'fitness',name:'Fitness',color:'#e74c3c',quests:[
-    {id:'f1',name:'Morning Workout',desc:'30+ min resistance or cardio',xp:80,frequency:'daily'},
-    {id:'f2',name:'Hit 8,000 Steps',desc:'Walk, jog, or move throughout the day',xp:50,frequency:'daily'},
-    {id:'f3',name:'Evening Stretch',desc:'15 min mobility work',xp:30,frequency:'daily'},
-    {id:'f4',name:'Cold Exposure',desc:'Cold shower or cold session',xp:40,frequency:'daily'},
+    {id:'f1',name:'Morning Workout',desc:'30+ min resistance or cardio',xp:400,frequency:'daily'},
+    {id:'f2',name:'Hit 8,000 Steps',desc:'Walk, jog, or move throughout the day',xp:250,frequency:'daily'},
+    {id:'f3',name:'Evening Stretch',desc:'15 min mobility work',xp:150,frequency:'daily'},
+    {id:'f4',name:'Cold Exposure',desc:'Cold shower or cold session',xp:200,frequency:'daily'},
   ]},
   {id:'nutrition',name:'Nutrition',color:'#27ae60',quests:[
-    {id:'n1',name:'Drink 8 Glasses of Water',desc:'Stay hydrated all day',xp:40,frequency:'daily'},
-    {id:'n2',name:'Eat Vegetables',desc:'At least 2 servings',xp:35,frequency:'daily'},
-    {id:'n3',name:'Skip Junk Food',desc:'No processed snacks or fast food',xp:50,frequency:'daily'},
-    {id:'n4',name:'Cook at Home',desc:'Prepare at least one meal yourself',xp:45,frequency:'daily'},
+    {id:'n1',name:'Drink 8 Glasses of Water',desc:'Stay hydrated all day',xp:200,frequency:'daily'},
+    {id:'n2',name:'Eat Vegetables',desc:'At least 2 servings',xp:175,frequency:'daily'},
+    {id:'n3',name:'Skip Junk Food',desc:'No processed snacks or fast food',xp:250,frequency:'daily'},
+    {id:'n4',name:'Cook at Home',desc:'Prepare at least one meal yourself',xp:225,frequency:'daily'},
   ]},
   {id:'mind',name:'Mind',color:'#8e44ad',quests:[
-    {id:'m1',name:'Meditate 10 Minutes',desc:'Focused breath or mindfulness',xp:50,frequency:'daily'},
-    {id:'m2',name:'Read 20 Minutes',desc:'Books, not feeds',xp:45,frequency:'daily'},
-    {id:'m3',name:'Journal',desc:'Write thoughts, goals, or reflections',xp:40,frequency:'daily'},
-    {id:'m4',name:'No Social Media 1 Hour',desc:'Single uninterrupted hour',xp:35,frequency:'daily'},
+    {id:'m1',name:'Meditate 10 Minutes',desc:'Focused breath or mindfulness',xp:250,frequency:'daily'},
+    {id:'m2',name:'Read 20 Minutes',desc:'Books, not feeds',xp:225,frequency:'daily'},
+    {id:'m3',name:'Journal',desc:'Write thoughts, goals, or reflections',xp:200,frequency:'daily'},
+    {id:'m4',name:'No Social Media 1 Hour',desc:'Single uninterrupted hour',xp:175,frequency:'daily'},
   ]},
   {id:'sleep',name:'Sleep',color:'#3498db',quests:[
-    {id:'s1',name:'In Bed by 11 PM',desc:'Prioritize sleep consistency',xp:60,frequency:'daily'},
-    {id:'s2',name:'7+ Hours of Sleep',desc:'Mark this when you wake up',xp:70,frequency:'daily'},
-    {id:'s3',name:'No Phone Before Bed',desc:'30 min phone-free',xp:45,frequency:'daily'},
+    {id:'s1',name:'In Bed by 11 PM',desc:'Prioritize sleep consistency',xp:300,frequency:'daily'},
+    {id:'s2',name:'7+ Hours of Sleep',desc:'Mark this when you wake up',xp:350,frequency:'daily'},
+    {id:'s3',name:'No Phone Before Bed',desc:'30 min phone-free',xp:225,frequency:'daily'},
   ]},
   {id:'work',name:'Deep Work',color:'#e67e22',quests:[
-    {id:'w1',name:'90-Min Deep Work Session',desc:'No interruptions, full focus',xp:90,frequency:'daily'},
-    {id:'w2',name:'Complete Top Priority Task',desc:'Your #1 task — done',xp:80,frequency:'daily'},
-    {id:'w3',name:'Plan Tomorrow',desc:"Write next day's tasks before bed",xp:40,frequency:'daily'},
+    {id:'w1',name:'90-Min Deep Work Session',desc:'No interruptions, full focus',xp:450,frequency:'daily'},
+    {id:'w2',name:'Complete Top Priority Task',desc:"Your #1 task — done",xp:400,frequency:'daily'},
+    {id:'w3',name:'Plan Tomorrow',desc:"Write next day's tasks before bed",xp:200,frequency:'daily'},
   ]},
 ];
 
@@ -793,7 +793,7 @@ function renderCzCategories(){
         <div id="czquests-${ci}"></div>
         <div class="cz-add-quest-row">
           <input class="cz-add-quest-name" id="czadd-name-${ci}" placeholder="New quest…">
-          <input class="cz-add-quest-xp" id="czadd-xp-${ci}" type="number" min="5" max="999" placeholder="XP">
+          <input class="cz-add-quest-xp" id="czadd-xp-${ci}" type="number" min="5" max="9999" placeholder="XP">
           <select class="cz-add-quest-freq" id="czadd-freq-${ci}">
             <option value="daily">D</option>
             <option value="weekly">W</option>
@@ -823,7 +823,7 @@ function renderCzQuestsForCat(ci){
         <input class="cz-q-name" value="${escHtml(q.name)}" maxlength="50" placeholder="Quest name">
         <input class="cz-q-desc" value="${escHtml(q.desc||'')}" maxlength="80" placeholder="Description">
       </div>
-      <input class="cz-q-xp" type="number" min="5" max="999" value="${q.xp}">
+      <input class="cz-q-xp" type="number" min="5" max="9999" value="${q.xp}">
       <select class="cz-q-freq">
         <option value="daily"${(q.frequency||'daily')==='daily'?' selected':''}>D</option>
         <option value="weekly"${q.frequency==='weekly'?' selected':''}>W</option>
@@ -1086,7 +1086,7 @@ function executeSageAction(act){
       const color = act.color || CAT_COLORS[state.categories.length % CAT_COLORS.length];
       const quests = (act.quests||[]).map((q,i) => ({
         id:`${id}_q${i}`, name:q.name||'Quest', desc:q.desc||'',
-        xp:Math.max(5,Math.min(900,q.xp||50)), frequency:q.frequency||'daily'
+        xp:Math.max(5,Math.min(9999,q.xp||250)), frequency:q.frequency||'daily'
       }));
       state.categories.push({ id, name:act.name||'New Category', color, quests });
       log.push(`Created "${act.name}" — ${quests.length} quest(s)`);
@@ -1097,7 +1097,7 @@ function executeSageAction(act){
       if(cat){
         const newQ = (act.quests||[]).map((q,i) => ({
           id:`sage_${Date.now()}_${i}`, name:q.name||'Quest', desc:q.desc||'',
-          xp:Math.max(5,Math.min(900,q.xp||50)), frequency:q.frequency||'daily'
+          xp:Math.max(5,Math.min(9999,q.xp||250)), frequency:q.frequency||'daily'
         }));
         cat.quests.push(...newQ);
         log.push(`Added ${newQ.length} quest(s) to "${cat.name}"`);
