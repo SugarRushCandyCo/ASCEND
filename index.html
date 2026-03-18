@@ -21,14 +21,15 @@
   html,body{width:100%;height:100%;height:-webkit-fill-available;background:#0a0a0c;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;display:flex;justify-content:center;}
 #app{width:100%;max-width:480px;height:100%;overflow:hidden;background:var(--bg);position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:calc(env(safe-area-inset-top,50px) + 14px);}
-.screen{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;padding:0 0 calc(100px + env(safe-area-inset-bottom,0px)) 0;-webkit-overflow-scrolling:touch;}
+.screen{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;padding:12px 0 calc(100px + env(safe-area-inset-bottom,0px)) 0;-webkit-overflow-scrolling:touch;}
 .screen.active{display:block;}
 
 /* TOPBAR */
 .topbar{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:10;}
 .topbar-title{font-family:'Cinzel',serif;font-size:14px;font-weight:900;letter-spacing:4px;color:var(--gold2);text-transform:uppercase;}
 .topbar-sub{font-size:10px;color:var(--text-dim);letter-spacing:2px;}
-.day-badge{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-size:10px;color:var(--text-mid);letter-spacing:1px;}
+.day-badge{background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:4px;padding:3px 9px;font-size:10px;color:var(--text-mid);letter-spacing:1px;}
+  .hero-day{position:absolute;top:16px;right:16px;z-index:2;}
 
 /* NAV */
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;background:var(--bg2);border-top:1px solid var(--border);z-index:100;padding-bottom:env(safe-area-inset-bottom,0px);}
@@ -182,7 +183,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
   /* AI screen overrides — flex column so input stays pinned to bottom */
   #screen-ai{overflow:hidden !important;padding:0 !important;}
   #screen-ai.active{display:flex !important;flex-direction:column;}
-.ai-topbar{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg);flex-shrink:0;z-index:10;}
+/* ai-topbar removed */
 .ai-messages{flex:1;overflow-y:auto;overflow-x:hidden;padding:14px 14px 12px;display:flex;flex-direction:column;gap:12px;min-height:0;-webkit-overflow-scrolling:touch;}
 .ai-messages::-webkit-scrollbar{width:0;}
 
@@ -261,11 +262,9 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 
 <!-- HOME -->
 <div class="screen active" id="screen-home">
-  <div class="topbar">
-    <div><div class="topbar-title">Ascend</div><div class="topbar-sub">LIFE RPG</div></div>
-    <div class="day-badge" id="home-date-badge">MON · WK1</div>
-  </div>
+
   <div class="hero-card">
+    <div class="day-badge hero-day" id="home-date-badge">MON</div>
     <div class="hero-rank" id="hero-rank">INITIATE</div>
     <div class="hero-name" id="hero-name">WARRIOR</div>
     <div class="hero-class" id="hero-class">BEGIN YOUR ASCENT</div>
@@ -289,10 +288,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 
 <!-- QUESTS -->
 <div class="screen" id="screen-quests">
-  <div class="topbar">
-    <div><div class="topbar-title">Quests</div><div class="topbar-sub">RESETS AT MIDNIGHT / WEEKLY</div></div>
-    <div class="day-badge" id="quests-date-badge">MON</div>
-  </div>
+
   <div class="quest-filters">
     <button class="filter-btn active" onclick="setFilter('all',this)">ALL</button>
     <button class="filter-btn" onclick="setFilter('daily',this)">DAILY</button>
@@ -301,14 +297,17 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
   </div>
   <div class="quest-header">
     <div class="quest-header-title" id="quest-filter-label">ALL QUESTS</div>
-    <div class="quest-completed-count" id="quest-count-label">0 completed</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="day-badge" id="quests-date-badge">MON</span>
+      <div class="quest-completed-count" id="quest-count-label">0 completed</div>
+    </div>
   </div>
   <div id="quest-list-container"></div>
 </div>
 
 <!-- STATS -->
 <div class="screen" id="screen-stats">
-  <div class="topbar"><div><div class="topbar-title">Chronicle</div><div class="topbar-sub">YOUR JOURNEY</div></div></div>
+
   <div class="stats-section">
     <div class="section-title">This Week</div>
     <div class="week-grid" id="week-grid"></div>
@@ -325,14 +324,14 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 
 <!-- AI -->
 <div class="screen" id="screen-ai" style="display:none;flex-direction:column;padding:0;">
-  <div class="ai-topbar">
-    <div><div class="topbar-title">Sage</div><div class="topbar-sub">LLAMA 3.3 · FREE</div></div>
-    <div class="day-badge" id="sage-status-badge" style="cursor:pointer;" onclick="toggleKeyPanel()">⚙ SETUP</div>
-  </div>
+
 
   <!-- API KEY PANEL -->
   <div id="key-panel" style="padding:16px 15px 14px;background:var(--bg3);border-bottom:1px solid var(--border);flex-shrink:0;">
-    <div style="font-family:'Cinzel',serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--gold2);margin-bottom:6px;">ENTER YOUR GROQ KEY</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <div style="font-family:'Cinzel',serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--gold2);">ENTER YOUR GROQ KEY</div>
+      <div class="day-badge" id="sage-status-badge" style="cursor:pointer;" onclick="toggleKeyPanel()">⚙ SETUP</div>
+    </div>
     <div style="font-size:10px;color:var(--text-dim);line-height:1.8;margin-bottom:10px;">Powered by Llama 3.3 70B via Groq. Fast, free, and ready.</div>
     <div style="display:flex;gap:8px;">
       <input id="oai-key-input" type="password" placeholder="gsk_..." autocomplete="off"
@@ -373,7 +372,7 @@ then paste it above to get started.</div>
 
 <!-- FORGE / CUSTOMIZE -->
 <div class="screen" id="screen-customize">
-  <div class="topbar"><div><div class="topbar-title">Forge</div><div class="topbar-sub">SHAPE YOUR PATH</div></div></div>
+
   <div class="cz-section" style="margin-top:14px">
     <div class="cz-section-header"><div class="cz-section-title">Profile</div></div>
     <div class="cz-profile-row">
@@ -580,7 +579,7 @@ function renderHome(){
   const doneCount=allQ.filter(q=>isQuestDone(q)).length;
   const days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
   const d=new Date();
-  document.getElementById('home-date-badge').textContent=`${days[d.getDay()]} · WK${weekKey(d).split('-W')[1]}`;
+  document.getElementById('home-date-badge').textContent=days[d.getDay()];
   document.getElementById('hero-rank').textContent=rank.title.toUpperCase();
   document.getElementById('hero-name').textContent=(state.heroName||'Warrior').toUpperCase();
   document.getElementById('hero-class').textContent=`LEVEL ${lv} — ${rank.title.toUpperCase()}`;
