@@ -20,7 +20,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{width:100%;height:100%;height:-webkit-fill-available;background:#0a0a0c;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;display:flex;justify-content:center;}
-#app{width:100%;max-width:480px;height:100%;overflow:hidden;background:var(--bg);position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:calc(env(safe-area-inset-top,50px) + 14px);}
+#app{width:100%;max-width:480px;height:100%;overflow:hidden;background:var(--bg);position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:calc(env(safe-area-inset-top,54px) + 20px);}
 .screen{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;padding:12px 0 calc(100px + env(safe-area-inset-bottom,0px)) 0;-webkit-overflow-scrolling:touch;}
 .screen.active{display:block;}
 
@@ -289,12 +289,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 <!-- QUESTS -->
 <div class="screen" id="screen-quests">
 
-  <div class="quest-filters">
-    <button class="filter-btn active" onclick="setFilter('all',this)">ALL</button>
-    <button class="filter-btn" onclick="setFilter('daily',this)">DAILY</button>
-    <button class="filter-btn" onclick="setFilter('weekly',this)">WEEKLY</button>
-    <button class="filter-btn" onclick="setFilter('longterm',this)">LONGTERM</button>
-  </div>
+
   <div class="quest-header">
     <div class="quest-header-title" id="quest-filter-label">ALL QUESTS</div>
     <div style="display:flex;align-items:center;gap:8px;">
@@ -346,9 +341,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
       <div class="ai-welcome-title">SAGE</div>
       <div class="ai-welcome-body">Your AI life coach, powered by Llama 3.3 70B.
 Free forever. No credit card. Just you and your goals.
-
-Get a free key at console.groq.com
-then paste it above to get started.</div>
+</div>
     </div>
   </div>
 
@@ -559,14 +552,7 @@ function navigate(name){
   if(name==='customize')renderCustomize();
 }
 
-function setFilter(f,btn){
-  currentFilter=f;
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const labels={all:'ALL QUESTS',daily:'DAILY QUESTS',weekly:'WEEKLY QUESTS',longterm:'LONGTERM GOALS'};
-  document.getElementById('quest-filter-label').textContent=labels[f]||'ALL QUESTS';
-  renderQuests();
-}
+function setFilter(f,btn){ currentFilter='all'; renderQuests(); }
 
 // ════════════════════════════════════════
 //  HOME
@@ -628,17 +614,22 @@ function renderQuests(){
       item.className='quest-item'+(done?(q.frequency==='longterm'?' longterm-done':' done'):'');
       const freqLabel={daily:'D',weekly:'W',longterm:'∞'}[q.frequency||'daily'];
       const freqClass=`freq-${q.frequency||'daily'}`;
+      const qName = q.name || 'Quest';
+      const qDesc = q.desc || '';
+      const qXp   = Math.max(1, parseInt(q.xp)||100);
       item.innerHTML=`
         <div class="quest-check"><svg viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
         <div class="quest-info">
-          <div class="quest-name">${q.name}</div>
-          <div class="quest-meta">
-            <span class="freq-badge ${freqClass}">${freqLabel}</span>
-            <span class="quest-desc">${q.desc}</span>
-          </div>
+          <div class="quest-name">${qName}</div>
+          ${qDesc?`<div class="quest-meta"><span class="freq-badge ${freqClass}">${freqLabel}</span><span class="quest-desc">${qDesc}</span></div>`:''}
         </div>
-        <div class="quest-right"><div class="quest-xp">${done?'✓':'+'+q.xp}</div></div>`;
-      if(!done)item.addEventListener('click',()=>completeQuest(q,item,atCap));
+        <div class="quest-right"><div class="quest-xp">${done?'✓':'+'+qXp}</div></div>`;
+      if(!done){
+        item.addEventListener('click',()=>completeQuest(q,item,atCap));
+      } else {
+        item.style.cursor='pointer';
+        item.addEventListener('click',()=>uncompleteQuest(q));
+      }
       list.appendChild(item);
     });
   });
@@ -650,13 +641,15 @@ function renderQuests(){
 function completeQuest(quest,el,atCap){
   const today=todayKey();const wk=weekKey();
   const freq=quest.frequency||'daily';
+  const xp=Math.max(1,parseInt(quest.xp)||100); // guard against undefined/0
 
   if(freq==='daily'){
     if(!state.dailyDone[today])state.dailyDone[today]={};
     if(state.dailyDone[today][quest.id])return;
     if(atCap){showToast("Daily XP cap reached. Rest and go again tomorrow.");return;}
     const cap=state.dailyCap||420;
-    const awarded=Math.min(quest.xp,cap-getTodayXP());
+    const remaining=cap-getTodayXP();
+    const awarded=Math.max(1,Math.min(xp,remaining)); // always award at least 1
     state.dailyDone[today][quest.id]=true;
     if(!state.dailyXP[today])state.dailyXP[today]=0;
     state.dailyXP[today]+=awarded;
@@ -669,20 +662,20 @@ function completeQuest(quest,el,atCap){
     if(state.weeklyDone[wk][quest.id])return;
     state.weeklyDone[wk][quest.id]=true;
     if(!state.dailyXP[today])state.dailyXP[today]=0;
-    state.dailyXP[today]+=quest.xp;
+    state.dailyXP[today]+=xp;
     if(!state.xpHistory[today])state.xpHistory[today]=0;
-    state.xpHistory[today]+=quest.xp;
-    awardXP(quest.xp,today);
-    showXPPop(el,`+${quest.xp} XP`);
+    state.xpHistory[today]+=xp;
+    awardXP(xp,today);
+    showXPPop(el,`+${xp} XP`);
   } else if(freq==='longterm'){
     if(state.longtermDone[quest.id])return;
     state.longtermDone[quest.id]=true;
     if(!state.dailyXP[today])state.dailyXP[today]=0;
-    state.dailyXP[today]+=quest.xp;
+    state.dailyXP[today]+=xp;
     if(!state.xpHistory[today])state.xpHistory[today]=0;
-    state.xpHistory[today]+=quest.xp;
-    awardXP(quest.xp,today);
-    showXPPop(el,`+${quest.xp} XP ∞`);
+    state.xpHistory[today]+=xp;
+    awardXP(xp,today);
+    showXPPop(el,`+${xp} XP ∞`);
   }
 
   updateStreak(today);saveState();
@@ -705,6 +698,34 @@ function awardXP(amt,today){
     saveState();
     setTimeout(()=>triggerLevelUp(next),800);
   }
+}
+
+function uncompleteQuest(quest){
+  const today=todayKey();const wk=weekKey();
+  const freq=quest.frequency||'daily';
+  const xp=Math.max(1,parseInt(quest.xp)||100);
+
+  if(freq==='daily'){
+    if(!state.dailyDone[today]||!state.dailyDone[today][quest.id])return;
+    delete state.dailyDone[today][quest.id];
+    const deduct=Math.min(xp, state.dailyXP[today]||0);
+    state.dailyXP[today]=Math.max(0,(state.dailyXP[today]||0)-deduct);
+    state.xpHistory[today]=Math.max(0,(state.xpHistory[today]||0)-deduct);
+    state.totalXP=Math.max(0,state.totalXP-deduct);
+  } else if(freq==='weekly'){
+    if(!state.weeklyDone[wk]||!state.weeklyDone[wk][quest.id])return;
+    delete state.weeklyDone[wk][quest.id];
+    state.totalXP=Math.max(0,state.totalXP-xp);
+  } else if(freq==='longterm'){
+    if(!state.longtermDone[quest.id])return;
+    delete state.longtermDone[quest.id];
+    state.totalXP=Math.max(0,state.totalXP-xp);
+  }
+  state.level=getCurrentLevel();
+  saveState();
+  showToast('Quest unmarked');
+  renderQuests();
+  renderHome();
 }
 
 function updateStreak(today){
@@ -892,7 +913,8 @@ let aiHistory = [];
 let aiTyping  = false;
 
 // ── Key management ──
-function getKey(){ return localStorage.getItem('ascend_oai_key') || ''; }
+const BAKED_KEY = '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';
+function getKey(){ return localStorage.getItem('ascend_oai_key') || BAKED_KEY; }
 
 function saveKey(){
   const k = document.getElementById('oai-key-input').value.trim();
@@ -1160,7 +1182,9 @@ document.getElementById('ai-input').addEventListener('keydown', function(e){
 });
 
 // Show key panel if no key saved yet
-document.getElementById('key-panel').style.display = getKey() ? 'none' : 'block';
+// Always ensure baked key is available
+if(BAKED_KEY !== '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') localStorage.setItem('ascend_oai_key', BAKED_KEY);
+document.getElementById('key-panel').style.display = getKey() && getKey() !== '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' ? 'none' : 'block';
 updateSageBadge();
 
 // ════════════════════════════════════════
