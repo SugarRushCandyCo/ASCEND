@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script defer src="https://cloud.umami.is/script.js" data-website-id="36245bb8-2bae-48eb-8cb8-f8a449ffe9d1"></script><meta charset="UTF-8">
 <meta name="theme-color" content="#0a0a0c">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>ASCEND — Life RPG</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="36245bb8-2bae-48eb-8cb8-f8a449ffe9d1"></script>
 <!-- Sage: fully local rule-based AI, no downloads -->
 <style>
 :root{
@@ -255,6 +255,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 .empty-state{text-align:center;padding:36px 18px;color:var(--text-dim);font-size:11px;letter-spacing:2px;line-height:2;}
 .empty-state .em{font-size:30px;display:block;margin-bottom:10px;}
 ::-webkit-scrollbar{width:0;}
+</style>
 </head>
 <body>
 <div id="app">
@@ -528,10 +529,7 @@ function navigate(name){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   const sc=document.getElementById('screen-'+name);
   sc.classList.add('active');
-  // AI screen needs flex — handled by CSS (#screen-ai.active{display:flex})
-  // Other screens: CSS .screen.active{display:block}
   document.getElementById('nav-'+name).classList.add('active');
-  if(name==='ai'){ /* model panel stays as-is */ }
   if(name==='home')renderHome();
   if(name==='quests')renderQuests();
   if(name==='stats')renderStats();
@@ -627,7 +625,7 @@ function renderQuests(){
 function completeQuest(quest,el,atCap){
   const today=todayKey();const wk=weekKey();
   const freq=quest.frequency||'daily';
-  const xp=Math.max(1,parseInt(quest.xp)||100); // guard against undefined/0
+  const xp=Math.max(1,parseInt(quest.xp)||100);
 
   if(freq==='daily'){
     if(!state.dailyDone[today])state.dailyDone[today]={};
@@ -635,7 +633,7 @@ function completeQuest(quest,el,atCap){
     if(atCap){showToast("Daily XP cap reached. Rest and go again tomorrow.");return;}
     const cap=state.dailyCap||420;
     const remaining=cap-getTodayXP();
-    const awarded=Math.max(1,Math.min(xp,remaining)); // always award at least 1
+    const awarded=Math.max(1,Math.min(xp,remaining));
     state.dailyDone[today][quest.id]=true;
     if(!state.dailyXP[today])state.dailyXP[today]=0;
     state.dailyXP[today]+=awarded;
@@ -897,19 +895,14 @@ function openColorPicker(ci,dotEl){
 }
 
 // ════════════════════════════════════════
-//  AI SAGE — GPT-4o via OpenAI API
-//  Works on every browser, every device
+//  AI SAGE
 // ════════════════════════════════════════
 let aiHistory = [];
 let aiTyping  = false;
 
-// ── Key management ──
 const BAKED_KEY = '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';
 function getKey(){ return BAKED_KEY; }
 
-// key panel removed — key is baked in
-
-// ── App context ──
 function getAppContext(){
   const lv = getCurrentLevel();
   const rank = getRankInfo(lv);
@@ -920,7 +913,6 @@ function getAppContext(){
   return `PLAYER: "${state.heroName||'Warrior'}" | Level ${lv} (${rank.title}) | XP ${state.totalXP} | Streak ${state.streak}d | Today ${getTodayXP()}/${state.dailyCap||420}XP\nQUEST BOARD:\n${cats}`;
 }
 
-// ── System prompt ──
 const SYSTEM = `You are Sage, a sharp and motivating AI life coach inside a gamified habit app called ASCEND. You speak in short punchy sentences. Real talk. No fluff.
 
 TWO MODES — read carefully:
@@ -944,7 +936,6 @@ Colors: #e74c3c #e67e22 #f1c40f #27ae60 #1abc9c #3498db #8e44ad #e91e8c #ff6b6b 
 Frequencies: daily (XP 20-120) | weekly (XP 150-350) | longterm (XP 400-900)
 Rules: 4-8 quests per category. Quest names must be proper readable English with correct spacing — "Veggie Servings" not "VeggieServ", "Morning Workout" not "MornWorkout". No abbreviations, no camelCase, no mashed words. Names max 40 chars. Desc max 60 chars. After building, one punchy motivational line.`;
 
-// ── Send ──
 async function sendAIMessage(){
   const input = document.getElementById('ai-input');
   const msg = input.value.trim();
@@ -962,7 +953,6 @@ function sendSuggestion(btn){
   sendAIMessage();
 }
 
-// ── Inference — simple fetch, works from file:// and http:// everywhere ──
 async function runSage(){
   aiTyping = true;
   document.getElementById('ai-send-btn').disabled = true;
@@ -981,27 +971,20 @@ async function runSage(){
       ],
     });
 
-    // file:// blocks direct cross-origin fetches — try proxy fallback automatically
     const isFileProto = location.protocol === 'file:';
     const PROXY = 'https://corsproxy.io/?url=';
 
     async function tryFetch(url, headers){
-      return fetch(url, {
-        method: 'POST',
-        headers,
-        body,
-      });
+      return fetch(url, { method: 'POST', headers, body });
     }
 
     let res;
     if (!isFileProto) {
-      // Served via http/https — direct call works
       res = await tryFetch(GROQ_URL, {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + getKey(),
       });
     } else {
-      // file:// — route through CORS proxy
       res = await tryFetch(PROXY + encodeURIComponent(GROQ_URL), {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + getKey(),
@@ -1017,7 +1000,6 @@ async function runSage(){
     const data = await res.json();
     const fullResponse = data.choices?.[0]?.message?.content || '';
 
-    // Split text from ACTIONS block
     const ai = fullResponse.indexOf('ACTIONS:');
     const textPart = (ai >= 0 ? fullResponse.slice(0, ai) : fullResponse).trim();
     const actPart  = ai >= 0 ? fullResponse.slice(ai + 8).trim() : null;
@@ -1051,7 +1033,6 @@ async function runSage(){
   document.getElementById('ai-send-btn').disabled = false;
 }
 
-// ── Execute board actions ──
 function executeSageAction(act){
   const log = [];
   try {
@@ -1091,7 +1072,6 @@ function executeSageAction(act){
 
 function freqIcon(f){ return {daily:'🔵',weekly:'🟣',longterm:'🟡'}[f]||'🔵'; }
 
-// ── Message rendering ──
 function appendUserMsg(text){
   const msgs = document.getElementById('ai-messages');
   const div = document.createElement('div'); div.className = 'ai-msg user';
@@ -1111,12 +1091,6 @@ function appendAssistantMsg(text, actions){
   }
   msgs.scrollTop = msgs.scrollHeight;
 }
-function appendSystemMsg(text){
-  const msgs = document.getElementById('ai-messages');
-  const div = document.createElement('div'); div.className = 'ai-msg assistant';
-  div.innerHTML = `<div class="ai-bubble" style="border-color:var(--gold);background:rgba(201,146,42,0.07);">${escHtml(text)}</div>`;
-  msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
-}
 function showTyping(){
   removePrevTyping();
   const msgs = document.getElementById('ai-messages');
@@ -1126,16 +1100,12 @@ function showTyping(){
 }
 function removePrevTyping(){ const t=document.getElementById('ai-typing-indicator'); if(t)t.remove(); }
 
-// Auto-resize textarea
 document.getElementById('ai-input').addEventListener('input', function(){
   this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,100)+'px';
 });
 document.getElementById('ai-input').addEventListener('keydown', function(e){
   if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendAIMessage(); }
 });
-
-// Show key panel if no key saved yet
-// Key is read directly from BAKED_KEY constant above
 
 // ════════════════════════════════════════
 //  LEVEL UP
@@ -1163,7 +1133,6 @@ function confirmReset(){
 //  HELPERS
 // ════════════════════════════════════════
 function showXPPop2(text){
-  // Show a floating negative XP indicator in the center of screen
   const pop=document.createElement('div');
   pop.className='xp-pop';
   pop.textContent=text;
