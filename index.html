@@ -15,60 +15,24 @@
   --red:#c0392b;--green:#2ecc71;--blue:#3498db;--purple:#9b59b6;
   --text:#e8e0cc;--text-dim:#7a7060;--text-mid:#b0a890;
   --freq-daily:#3498db;--freq-weekly:#9b59b6;--freq-longterm:#c9922a;
-  /* Mobile spacing tokens
-     44px = iOS status bar; 48px covers Android + notch devices */
   --safe-top: env(safe-area-inset-top, 44px);
   --safe-bottom: env(safe-area-inset-bottom, 16px);
   --nav-height: 62px;
-  --status-bar: calc(var(--safe-top) + 8px);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{width:100%;height:100%;height:-webkit-fill-available;background:#0a0a0c;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;display:flex;justify-content:center;}
-
-#app{
-  width:100%;max-width:480px;height:100%;overflow:hidden;
-  background:var(--bg);position:fixed;top:0;left:50%;
-  transform:translateX(-50%);
-}
-
-.screen{
-  display:none;position:absolute;
-  top:0;left:0;right:0;bottom:0;
-  overflow-y:auto;overflow-x:hidden;
-  padding:0 0 calc(var(--nav-height) + var(--safe-bottom) + 18px) 0;
-  -webkit-overflow-scrolling:touch;
-}
+#app{width:100%;max-width:480px;height:100%;overflow:hidden;background:var(--bg);position:fixed;top:0;left:50%;transform:translateX(-50%);}
+.screen{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;padding:0 0 calc(var(--nav-height) + var(--safe-bottom) + 18px) 0;-webkit-overflow-scrolling:touch;}
 .screen.active{display:block;}
-
-/* TOPBAR */
-.topbar{
-  padding:10px 18px 10px;
-  padding-top:54px;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--border);
-  background:var(--bg);
-  position:sticky;top:0;z-index:10;
-}
+.topbar{padding:10px 18px 10px;padding-top:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:10;}
 .topbar-title{font-family:'Cinzel',serif;font-size:14px;font-weight:900;letter-spacing:4px;color:var(--gold2);text-transform:uppercase;}
 .topbar-sub{font-size:10px;color:var(--text-dim);letter-spacing:2px;}
 .day-badge{background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:4px;padding:3px 9px;font-size:10px;color:var(--text-mid);letter-spacing:1px;}
-.hero-day{position:absolute;top:16px;right:16px;z-index:2;}
-
-/* NAV */
-.bottom-nav{
-  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-  width:100%;max-width:480px;
-  display:flex;
-  background:var(--bg2);border-top:1px solid var(--border);
-  z-index:100;
-  padding-bottom:var(--safe-bottom);
-}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;background:var(--bg2);border-top:1px solid var(--border);z-index:100;padding-bottom:var(--safe-bottom);}
 .nav-btn{flex:1;padding:11px 0 13px;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--text-dim);font-family:'Space Mono',monospace;font-size:7px;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s;}
 .nav-btn.active{color:var(--gold2);}
 .nav-btn svg{width:18px;height:18px;}
-
-/* HOME */
 .hero-card{margin:16px 14px 0;background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:22px 20px;position:relative;overflow:hidden;}
 .hero-card::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%);pointer-events:none;}
 .hero-rank{font-family:'Cinzel',serif;font-size:10px;font-weight:600;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:5px;}
@@ -96,14 +60,10 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 .cap-bar-outer{background:var(--bg);border-radius:3px;height:5px;overflow:hidden;}
 .cap-bar-inner{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:3px;transition:width 0.6s ease;}
 .cap-note{font-size:9px;color:var(--text-dim);margin-top:5px;letter-spacing:1px;}
-
-/* FREQUENCY BADGES */
 .freq-badge{display:inline-block;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:3px;font-weight:700;flex-shrink:0;}
 .freq-daily{background:rgba(52,152,219,0.15);color:var(--freq-daily);border:1px solid rgba(52,152,219,0.3);}
 .freq-weekly{background:rgba(155,89,182,0.15);color:var(--freq-weekly);border:1px solid rgba(155,89,182,0.3);}
 .freq-longterm{background:rgba(201,146,42,0.15);color:var(--freq-longterm);border:1px solid rgba(201,146,42,0.3);}
-
-/* QUESTS */
 .quest-header{padding:12px 14px 8px;display:flex;justify-content:space-between;align-items:center;}
 .quest-header-title{font-family:'Cinzel',serif;font-size:13px;font-weight:600;letter-spacing:3px;color:var(--text);}
 .quest-completed-count{font-size:10px;color:var(--text-dim);}
@@ -113,14 +73,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 .cat-name{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-mid);}
 .cat-xp-sum{margin-left:auto;font-size:10px;color:var(--text-dim);}
 .quest-list{padding:0 10px;}
-.quest-item{
-  background:var(--bg3);border:1px solid var(--border);border-radius:12px;
-  padding:14px;margin-bottom:7px;
-  display:flex;align-items:center;gap:10px;
-  cursor:pointer;transition:border-color 0.2s,background 0.2s;
-  position:relative;overflow:hidden;
-  user-select:none;-webkit-user-select:none;
-}
+.quest-item{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:7px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;}
 .quest-item:active{transform:scale(0.98);}
 .quest-item.done{border-color:transparent;background:rgba(46,204,113,0.05);}
 .quest-item.done::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green);border-radius:3px 0 0 3px;}
@@ -138,11 +91,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 .quest-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
 .quest-xp{font-family:'Cinzel',serif;font-size:12px;font-weight:600;color:var(--gold);}
 .quest-item.done .quest-xp,.quest-item.longterm-done .quest-xp{color:var(--text-dim);}
-
-/* Undo hint shown on done items */
 .undo-hint{font-size:8px;color:var(--text-dim);letter-spacing:1px;margin-top:2px;opacity:0.7;}
-
-/* STATS */
 .stats-section{padding:14px 14px 0;}
 .section-title{font-family:'Cinzel',serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border);}
 .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:18px;}
@@ -162,8 +111,6 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 .lv-badge{font-family:'Cinzel',serif;font-size:11px;font-weight:900;color:var(--gold2);background:var(--bg3);border:1px solid var(--gold);border-radius:6px;padding:4px 8px;flex-shrink:0;}
 .lv-info{flex:1;} .lv-title{font-size:12px;color:var(--text);} .lv-date{font-size:10px;color:var(--text-dim);}
 .lv-days{font-size:10px;color:var(--gold);margin-left:auto;}
-
-/* ═══════════ CUSTOMIZE ═══════════ */
 .cz-section{margin:0 14px 18px;}
 .cz-section-header{display:flex;align-items:center;justify-content:space-between;padding:12px 0 9px;border-bottom:1px solid var(--border);margin-bottom:10px;}
 .cz-section-title{font-family:'Cinzel',serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;}
@@ -213,8 +160,6 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 .color-swatch.selected{border-color:white;}
 .cz-danger-btn{width:100%;background:none;border:1px solid var(--red);border-radius:8px;color:var(--red);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;padding:12px;cursor:pointer;text-transform:uppercase;}
 .cz-danger-btn:active{background:rgba(192,57,43,0.1);}
-
-/* ═══════════ AI TAB ═══════════ */
 #screen-ai{overflow:hidden !important;padding:0 !important;}
 #screen-ai.active{display:flex !important;flex-direction:column;}
 .ai-messages{flex:1;overflow-y:auto;overflow-x:hidden;padding:14px 14px 12px;display:flex;flex-direction:column;gap:12px;min-height:0;-webkit-overflow-scrolling:touch;}
@@ -235,12 +180,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 .ai-typing span:nth-child(2){animation-delay:0.2s;}
 .ai-typing span:nth-child(3){animation-delay:0.4s;}
 @keyframes typingPulse{0%,80%,100%{transform:scale(0.7);opacity:0.4;}40%{transform:scale(1);opacity:1;}}
-.ai-input-area{
-  flex-shrink:0;background:var(--bg2);border-top:1px solid var(--border);
-  padding:10px 12px;
-  padding-bottom:calc(var(--nav-height) + var(--safe-bottom) + 4px);
-  width:100%;
-}
+.ai-input-area{flex-shrink:0;background:var(--bg2);border-top:1px solid var(--border);padding:10px 12px;padding-bottom:calc(var(--nav-height) + var(--safe-bottom) + 4px);width:100%;}
 .ai-input-row{display:flex;gap:8px;align-items:flex-end;}
 .ai-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);outline:none;resize:none;max-height:100px;line-height:1.5;transition:border-color 0.2s;}
 .ai-input:focus{border-color:var(--gold);}
@@ -258,8 +198,6 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 .ai-welcome-icon{font-size:38px;margin-bottom:14px;}
 .ai-welcome-title{font-family:'Cinzel',serif;font-size:16px;font-weight:900;color:var(--gold2);letter-spacing:3px;margin-bottom:8px;}
 .ai-welcome-body{font-size:11px;line-height:1.9;letter-spacing:0.5px;}
-
-/* MODALS */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s;}
 .modal-overlay.show{opacity:1;pointer-events:all;}
 .levelup-card{text-align:center;padding:40px 28px;position:relative;animation:levelPop 0.6s cubic-bezier(0.175,0.885,0.32,1.275) forwards;}
@@ -280,7 +218,6 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;m
 .confirm-btns{display:flex;gap:9px;}
 .confirm-cancel{flex:1;background:none;border:1px solid var(--border);border-radius:8px;color:var(--text-mid);font-family:'Space Mono',monospace;font-size:11px;padding:10px;cursor:pointer;}
 .confirm-ok{flex:1;background:var(--red);border:none;border-radius:8px;color:white;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:10px;cursor:pointer;}
-
 .xp-pop{position:fixed;pointer-events:none;font-family:'Cinzel',serif;font-size:18px;font-weight:900;color:var(--gold2);z-index:500;animation:xpFloat 1.5s ease-out forwards;}
 @keyframes xpFloat{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.3);}}
 .toast{position:fixed;bottom:calc(var(--nav-height) + var(--safe-bottom) + 8px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 16px;font-size:11px;color:var(--text-mid);letter-spacing:1px;opacity:0;pointer-events:none;transition:all 0.3s;z-index:300;white-space:nowrap;}
@@ -363,15 +300,15 @@ Free forever. No credit card. Just you and your goals.</div>
   </div>
   <div class="ai-input-area">
     <div class="ai-suggestions" id="ai-suggestions">
-      <button class="ai-suggest-chip" onclick="sendSuggestion(this)">Make me a healthy eating plan</button>
-      <button class="ai-suggest-chip" onclick="sendSuggestion(this)">I want to get fit this month</button>
-      <button class="ai-suggest-chip" onclick="sendSuggestion(this)">Build me a morning routine</button>
+      <button class="ai-suggest-chip" onclick="sendSuggestion(this)">Build me a fitness plan</button>
+      <button class="ai-suggest-chip" onclick="sendSuggestion(this)">Delete all my quests and start fresh</button>
+      <button class="ai-suggest-chip" onclick="sendSuggestion(this)">Add a morning routine category</button>
       <button class="ai-suggest-chip" onclick="sendSuggestion(this)">I need motivation right now</button>
-      <button class="ai-suggest-chip" onclick="sendSuggestion(this)">30-day challenge</button>
+      <button class="ai-suggest-chip" onclick="sendSuggestion(this)">Replace sleep quests with better ones</button>
       <button class="ai-suggest-chip" onclick="sendSuggestion(this)">What should I focus on?</button>
     </div>
     <div class="ai-input-row">
-      <textarea class="ai-input" id="ai-input" placeholder="Tell Sage your goals…" rows="1"></textarea>
+      <textarea class="ai-input" id="ai-input" placeholder="Tell Sage what to build or change…" rows="1"></textarea>
       <button class="ai-send-btn" id="ai-send-btn" onclick="sendAIMessage()">
         <svg viewBox="0 0 24 24" fill="var(--bg)"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
@@ -379,7 +316,7 @@ Free forever. No credit card. Just you and your goals.</div>
   </div>
 </div>
 
-<!-- FORGE / CUSTOMIZE -->
+<!-- FORGE -->
 <div class="screen" id="screen-customize">
   <div class="topbar"><div class="topbar-title">FORGE</div></div>
   <div class="cz-section" style="margin-top:14px">
@@ -451,7 +388,7 @@ Free forever. No credit card. Just you and your goals.</div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
-</div><!-- #app -->
+</div>
 
 <script>
 // ════════════════════════════════════════
@@ -508,10 +445,7 @@ const DEFAULT_CATEGORIES=[
 let state={
   heroName:'Warrior',dailyCap:420,totalXP:0,level:1,streak:0,
   lastActiveDate:null,xpHistory:{},levelHistory:[],
-  dailyDone:{},
-  weeklyDone:{},
-  longtermDone:{},
-  dailyXP:{},
+  dailyDone:{},weeklyDone:{},longtermDone:{},dailyXP:{},
   categories:JSON.parse(JSON.stringify(DEFAULT_CATEGORIES)),
 };
 
@@ -520,10 +454,10 @@ function loadState(){
   try{
     const raw=localStorage.getItem('ascend_v4');
     if(raw){
-      const s=JSON.parse(raw); state={...state,...s};
-      if(!state.categories||!state.categories.length) state.categories=JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
-      if(!state.weeklyDone) state.weeklyDone={};
-      if(!state.longtermDone) state.longtermDone={};
+      const s=JSON.parse(raw);state={...state,...s};
+      if(!state.categories||!state.categories.length)state.categories=JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+      if(!state.weeklyDone)state.weeklyDone={};
+      if(!state.longtermDone)state.longtermDone={};
     }
   }catch(e){}
 }
@@ -532,18 +466,15 @@ function todayKey(){const d=new Date();return `${d.getFullYear()}-${p2(d.getMont
 function dateKey(d){return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
 function weekKey(d){d=d||new Date();const t=new Date(d);t.setHours(0,0,0,0);t.setDate(t.getDate()+4-(t.getDay()||7));const y=t.getFullYear();const wn=Math.ceil(((t-new Date(y,0,1))/86400000+1)/7);return `${y}-W${p2(wn)}`;}
 function p2(n){return String(n).padStart(2,'0');}
-
 function getTodayDone(){return state.dailyDone[todayKey()]||{};}
 function getWeeklyDone(){return state.weeklyDone[weekKey()]||{};}
 function getLongtermDone(){return state.longtermDone||{};}
 function getTodayXP(){return state.dailyXP[todayKey()]||0;}
-
 function isQuestDone(q){
-  if(q.frequency==='weekly') return !!(getWeeklyDone()[q.id]);
-  if(q.frequency==='longterm') return !!(getLongtermDone()[q.id]);
+  if(q.frequency==='weekly')return !!(getWeeklyDone()[q.id]);
+  if(q.frequency==='longterm')return !!(getLongtermDone()[q.id]);
   return !!(getTodayDone()[q.id]);
 }
-
 function getCurrentLevel(){let lv=1;for(let i=2;i<LEVEL_XP.length;i++){if(state.totalXP>=LEVEL_XP[i])lv=i;else break;}return lv;}
 function getRankInfo(level){return RANKS[Math.min(level,RANKS.length)-1]||RANKS[RANKS.length-1];}
 function getAvgXP(){const k=Object.keys(state.xpHistory);if(!k.length)return 0;const r=k.slice(-7);return Math.round(r.reduce((s,k2)=>s+(state.xpHistory[k2]||0),0)/r.length);}
@@ -571,7 +502,6 @@ function renderHome(){
   const lv=getCurrentLevel();const rank=getRankInfo(lv);
   const todayXP=getTodayXP();
   const allQ=state.categories.flatMap(c=>c.quests);
-  const totalQ=allQ.length;
   const doneCount=allQ.filter(q=>isQuestDone(q)).length;
   const days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
   const d=new Date();
@@ -590,7 +520,7 @@ function renderHome(){
   document.getElementById('days-to-next').innerHTML=d2?`At your pace: <span>~${d2} days</span> to Level ${lv+1}`:'MAXIMUM LEVEL REACHED';
   document.getElementById('today-xp').textContent=todayXP;
   document.getElementById('streak-val').textContent=`${state.streak} day${state.streak!==1?'s':''}`;
-  document.getElementById('quests-done-val').textContent=`${doneCount} / ${totalQ}`;
+  document.getElementById('quests-done-val').textContent=`${doneCount} / ${allQ.length}`;
   document.getElementById('total-xp-val').textContent=state.totalXP;
   const cap=state.dailyCap||420;
   document.getElementById('cap-bar').style.width=Math.min(todayXP/cap*100,100)+'%';
@@ -599,7 +529,7 @@ function renderHome(){
 }
 
 // ════════════════════════════════════════
-//  QUESTS  (full re-render every time — enables clean toggle)
+//  QUESTS
 // ════════════════════════════════════════
 function renderQuests(){
   const days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
@@ -608,169 +538,110 @@ function renderQuests(){
   const doneCount=allQ.filter(q=>isQuestDone(q)).length;
   const todayXP=getTodayXP();
   document.getElementById('quest-count-label').textContent=`${doneCount} completed · ${todayXP} XP today`;
-
-  const container=document.getElementById('quest-list-container');
-  container.innerHTML='';
-
+  const container=document.getElementById('quest-list-container');container.innerHTML='';
   state.categories.forEach(cat=>{
-    const quests=cat.quests;
-    if(!quests.length)return;
-
+    const quests=cat.quests;if(!quests.length)return;
     const avail=quests.filter(q=>!isQuestDone(q)).reduce((s,q)=>s+q.xp,0);
     const sec=document.createElement('div');sec.className='category-section';
-    sec.innerHTML=`
-      <div class="category-header">
-        <div class="cat-dot" style="background:${cat.color}"></div>
-        <div class="cat-name">${cat.name}</div>
-        <div class="cat-xp-sum">${avail>0?'+'+avail+' XP':'✓ done'}</div>
-      </div>
-      <div class="quest-list" id="qlist-${cat.id}"></div>`;
+    sec.innerHTML=`<div class="category-header"><div class="cat-dot" style="background:${cat.color}"></div><div class="cat-name">${cat.name}</div><div class="cat-xp-sum">${avail>0?'+'+avail+' XP':'✓ done'}</div></div><div class="quest-list" id="qlist-${cat.id}"></div>`;
     container.appendChild(sec);
-
     const list=sec.querySelector(`#qlist-${cat.id}`);
     const atDailyCap=todayXP>=(state.dailyCap||420);
-
     quests.forEach(q=>{
       const done=isQuestDone(q);
       const item=document.createElement('div');
       const freqClass=`freq-${q.frequency||'daily'}`;
       const freqLabel={daily:'D',weekly:'W',longterm:'∞'}[q.frequency||'daily'];
-      const qName=q.name||'Quest';
-      const qDesc=q.desc||'';
       const qXp=Math.max(1,parseInt(q.xp)||100);
-
       item.className='quest-item'+(done?(q.frequency==='longterm'?' longterm-done':' done'):'');
-
       item.innerHTML=`
-        <div class="quest-check">
-          <svg viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        </div>
+        <div class="quest-check"><svg viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
         <div class="quest-info">
-          <div class="quest-name">${escHtml(qName)}</div>
-          ${qDesc?`<div class="quest-meta"><span class="freq-badge ${freqClass}">${freqLabel}</span><span class="quest-desc">${escHtml(qDesc)}</span></div>`:''}
+          <div class="quest-name">${escHtml(q.name||'Quest')}</div>
+          ${q.desc?`<div class="quest-meta"><span class="freq-badge ${freqClass}">${freqLabel}</span><span class="quest-desc">${escHtml(q.desc)}</span></div>`:''}
         </div>
         <div class="quest-right">
           <div class="quest-xp">${done?'✓':'+'+qXp}</div>
           ${done?'<div class="undo-hint">tap to undo</div>':''}
         </div>`;
-
-      // ── Toggle handler ──────────────────────────────────────────
       item.addEventListener('click',()=>{
-        if(done){
-          uncompleteQuest(q);
-        } else {
-          // Cap check only for daily quests
-          if(atDailyCap && (q.frequency==='daily')){
-            showToast("Daily XP cap reached. Rest and go again tomorrow.");
-            return;
-          }
+        if(done){uncompleteQuest(q);}
+        else{
+          if(atDailyCap&&(q.frequency==='daily')){showToast("Daily XP cap reached. Rest and go again tomorrow.");return;}
           completeQuest(q);
         }
       });
-
       list.appendChild(item);
     });
   });
 }
 
 // ════════════════════════════════════════
-//  COMPLETE QUEST
+//  COMPLETE / UNCOMPLETE
 // ════════════════════════════════════════
 function completeQuest(quest){
-  const today=todayKey();
-  const wk=weekKey();
-  const freq=quest.frequency||'daily';
-  const xp=Math.max(1,parseInt(quest.xp)||100);
-
+  const today=todayKey();const wk=weekKey();
+  const freq=quest.frequency||'daily';const xp=Math.max(1,parseInt(quest.xp)||100);
   if(freq==='daily'){
-    if(!state.dailyDone[today]) state.dailyDone[today]={};
-    if(state.dailyDone[today][quest.id]) return;
-    const cap=state.dailyCap||420;
-    const remaining=cap-getTodayXP();
+    if(!state.dailyDone[today])state.dailyDone[today]={};
+    if(state.dailyDone[today][quest.id])return;
+    const cap=state.dailyCap||420;const remaining=cap-getTodayXP();
     const awarded=Math.max(1,Math.min(xp,remaining));
     state.dailyDone[today][quest.id]=true;
-    if(!state.dailyXP[today]) state.dailyXP[today]=0;
+    if(!state.dailyXP[today])state.dailyXP[today]=0;
     state.dailyXP[today]+=awarded;
-    if(!state.xpHistory[today]) state.xpHistory[today]=0;
+    if(!state.xpHistory[today])state.xpHistory[today]=0;
     state.xpHistory[today]+=awarded;
-    awardXP(awarded,today);
-    showXPPopCenter(`+${awarded} XP`);
-  } else if(freq==='weekly'){
-    if(!state.weeklyDone[wk]) state.weeklyDone[wk]={};
-    if(state.weeklyDone[wk][quest.id]) return;
+    awardXP(awarded,today);showXPPopCenter(`+${awarded} XP`);
+  }else if(freq==='weekly'){
+    if(!state.weeklyDone[wk])state.weeklyDone[wk]={};
+    if(state.weeklyDone[wk][quest.id])return;
     state.weeklyDone[wk][quest.id]=true;
-    if(!state.dailyXP[today]) state.dailyXP[today]=0;
-    state.dailyXP[today]+=xp;
-    if(!state.xpHistory[today]) state.xpHistory[today]=0;
-    state.xpHistory[today]+=xp;
-    awardXP(xp,today);
-    showXPPopCenter(`+${xp} XP`);
-  } else if(freq==='longterm'){
-    if(state.longtermDone[quest.id]) return;
+    if(!state.dailyXP[today])state.dailyXP[today]=0;state.dailyXP[today]+=xp;
+    if(!state.xpHistory[today])state.xpHistory[today]=0;state.xpHistory[today]+=xp;
+    awardXP(xp,today);showXPPopCenter(`+${xp} XP`);
+  }else if(freq==='longterm'){
+    if(state.longtermDone[quest.id])return;
     state.longtermDone[quest.id]=true;
-    if(!state.dailyXP[today]) state.dailyXP[today]=0;
-    state.dailyXP[today]+=xp;
-    if(!state.xpHistory[today]) state.xpHistory[today]=0;
-    state.xpHistory[today]+=xp;
-    awardXP(xp,today);
-    showXPPopCenter(`+${xp} XP ∞`);
+    if(!state.dailyXP[today])state.dailyXP[today]=0;state.dailyXP[today]+=xp;
+    if(!state.xpHistory[today])state.xpHistory[today]=0;state.xpHistory[today]+=xp;
+    awardXP(xp,today);showXPPopCenter(`+${xp} XP ∞`);
   }
-
-  updateStreak(today);
-  saveState();
-  // Full re-render keeps all event listeners intact for future toggles
-  renderQuests();
-  renderHome();
+  updateStreak(today);saveState();renderQuests();renderHome();
 }
 
 function awardXP(amt,today){
-  const prev=getCurrentLevel();
-  state.totalXP+=amt;
-  const next=getCurrentLevel();
-  state.level=next;
-  if(next>prev){
-    state.levelHistory.push({level:next,date:today,totalXP:state.totalXP});
-    saveState();
-    setTimeout(()=>triggerLevelUp(next),800);
-  }
+  const prev=getCurrentLevel();state.totalXP+=amt;
+  const next=getCurrentLevel();state.level=next;
+  if(next>prev){state.levelHistory.push({level:next,date:today,totalXP:state.totalXP});saveState();setTimeout(()=>triggerLevelUp(next),800);}
 }
 
-// ════════════════════════════════════════
-//  UNCOMPLETE QUEST  (boolean toggle back)
-// ════════════════════════════════════════
 function uncompleteQuest(quest){
-  const today=todayKey();
-  const wk=weekKey();
-  const freq=quest.frequency||'daily';
-  const xp=Math.max(1,parseInt(quest.xp)||100);
-
+  const today=todayKey();const wk=weekKey();
+  const freq=quest.frequency||'daily';const xp=Math.max(1,parseInt(quest.xp)||100);
   if(freq==='daily'){
-    if(!state.dailyDone[today]||!state.dailyDone[today][quest.id]) return;
+    if(!state.dailyDone[today]||!state.dailyDone[today][quest.id])return;
     delete state.dailyDone[today][quest.id];
     const deduct=Math.min(xp,state.dailyXP[today]||0);
     state.dailyXP[today]=Math.max(0,(state.dailyXP[today]||0)-deduct);
     state.xpHistory[today]=Math.max(0,(state.xpHistory[today]||0)-deduct);
     state.totalXP=Math.max(0,state.totalXP-deduct);
-  } else if(freq==='weekly'){
-    if(!state.weeklyDone[wk]||!state.weeklyDone[wk][quest.id]) return;
+  }else if(freq==='weekly'){
+    if(!state.weeklyDone[wk]||!state.weeklyDone[wk][quest.id])return;
     delete state.weeklyDone[wk][quest.id];
     state.dailyXP[today]=Math.max(0,(state.dailyXP[today]||0)-xp);
     state.xpHistory[today]=Math.max(0,(state.xpHistory[today]||0)-xp);
     state.totalXP=Math.max(0,state.totalXP-xp);
-  } else if(freq==='longterm'){
-    if(!state.longtermDone[quest.id]) return;
+  }else if(freq==='longterm'){
+    if(!state.longtermDone[quest.id])return;
     delete state.longtermDone[quest.id];
     state.dailyXP[today]=Math.max(0,(state.dailyXP[today]||0)-xp);
     state.xpHistory[today]=Math.max(0,(state.xpHistory[today]||0)-xp);
     state.totalXP=Math.max(0,state.totalXP-xp);
   }
-
-  state.level=getCurrentLevel();
-  saveState();
-  showXPPopCenter(`-${xp} XP`,'var(--red)');
-  showToast('Quest unmarked — XP removed');
-  renderQuests();
-  renderHome();
+  state.level=getCurrentLevel();saveState();
+  showXPPopCenter(`-${xp} XP`,'var(--red)');showToast('Quest unmarked — XP removed');
+  renderQuests();renderHome();
 }
 
 function updateStreak(today){
@@ -860,9 +731,7 @@ function renderCzCategories(){
           <input class="cz-add-quest-name" id="czadd-name-${ci}" placeholder="New quest…">
           <input class="cz-add-quest-xp" id="czadd-xp-${ci}" type="number" min="5" max="9999" placeholder="XP">
           <select class="cz-add-quest-freq" id="czadd-freq-${ci}">
-            <option value="daily">D</option>
-            <option value="weekly">W</option>
-            <option value="longterm">∞</option>
+            <option value="daily">D</option><option value="weekly">W</option><option value="longterm">∞</option>
           </select>
           <button class="cz-add-quest-btn" onclick="addQuest(${ci})">+</button>
         </div>
@@ -911,8 +780,7 @@ function addQuest(ci){
   const id='q_'+Date.now();
   state.categories[ci].quests.push({id,name,desc:'',xp:Math.max(5,Math.min(999,xp)),frequency:freqEl.value||'daily'});
   nameEl.value='';xpEl.value='';freqEl.value='daily';
-  saveState();renderCzQuestsForCat(ci);renderQuests();renderHome();
-  showToast(`Quest added ✓`);
+  saveState();renderCzQuestsForCat(ci);renderQuests();renderHome();showToast(`Quest added ✓`);
 }
 function confirmDeleteQuest(ci,qi){
   const q=state.categories[ci].quests[qi];
@@ -951,42 +819,89 @@ function openColorPicker(ci,dotEl){
 }
 
 // ════════════════════════════════════════
-//  AI SAGE
+//  AI SAGE — FIXED ENGINE
 // ════════════════════════════════════════
 let aiHistory=[];
 let aiTyping=false;
-
 const BAKED_KEY='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';
 function getKey(){return BAKED_KEY;}
 
 function getAppContext(){
   const lv=getCurrentLevel();const rank=getRankInfo(lv);
-  const cats=state.categories.map(c=>
-    `Category: "${c.name}" (id:${c.id})\n`+
-    c.quests.map(q=>`  - "${q.name}" | ${q.frequency||'daily'} | ${q.xp}XP${isQuestDone(q)?' | done':''}`).join('\n')
+  const catList=state.categories.map(c=>
+    `  [id="${c.id}" name="${c.name}"] ${c.quests.length} quests:\n`+
+    c.quests.map(q=>`    - id="${q.id}" | "${q.name}" | ${q.frequency||'daily'} | ${q.xp}XP${isQuestDone(q)?' | ✓done':''}`).join('\n')
   ).join('\n');
-  return `PLAYER: "${state.heroName||'Warrior'}" | Level ${lv} (${rank.title}) | Total XP: ${state.totalXP} | Streak: ${state.streak}d | Today: ${getTodayXP()}/${state.dailyCap||420}XP\n\nCURRENT QUEST BOARD:\n${cats}`;
+  return `PLAYER: "${state.heroName||'Warrior'}" | Level ${lv} (${rank.title}) | Total XP: ${state.totalXP} | Streak: ${state.streak}d | Today: ${getTodayXP()}/${state.dailyCap||420}XP\n\nCURRENT QUEST BOARD (${state.categories.length} categories):\n${catList||'  (empty)'}`;
 }
 
-const SYSTEM=`You are Sage, a sharp and motivating AI life coach inside a gamified habit app called ASCEND. You speak in short punchy sentences. Real talk. No fluff.
+// ── SYSTEM PROMPT (rewritten for reliability) ──────────────────────────────
+const SYSTEM=`You are Sage, a sharp no-fluff AI life coach inside ASCEND, a gamified habit app.
+Speak in short punchy sentences. Be direct. Never pad responses.
 
-TWO MODES — read carefully:
+━━━ TWO MODES ━━━
 
-MODE 1 - CONVERSATION (default):
-When the user chats, vents, asks for tips, or talks about goals WITHOUT explicitly asking you to build/create/add something - just respond. Give real advice, motivation, tough love. Do NOT touch the quest board. Do NOT output ACTIONS.
+MODE 1 — CHAT (default):
+Pure conversation. Tips, motivation, tough love. Do NOT output ACTIONS. Do NOT touch the board.
+Use this when: user is venting, asking advice, asking "how do I...", or discussing goals without asking you to build something.
 
-MODE 2 - BUILD (only when user explicitly asks):
-ONLY modify the quest board when the user clearly asks: "make me a plan", "build me", "create a", "add quests", "make a routine", "generate a plan", "set this up for me", "add to my board".
-Never auto-build. If unsure - ASK first.
+MODE 2 — BUILD:
+Modify the quest board when the user clearly requests it.
+Trigger words: "add", "build", "create", "make", "delete", "remove", "replace", "clear", "generate", "set up", "give me", "I want [X] quests", "make me a plan".
+When in doubt between modes — BUILD. Take action. Don't ask for permission.
 
-When building, append ACTIONS at the very end:
-ACTIONS:[{"action":"create_category","name":"Name","color":"#hex","quests":[{"name":"Quest","desc":"desc","xp":60,"frequency":"daily"}]}]
+━━━ ALWAYS BUILD IMMEDIATELY — never say "I'll create..." and then not do it ━━━
+If the user asks for a plan, a routine, or any set of quests → create them right now in ACTIONS.
+If the user says delete/remove → delete right now in ACTIONS.
+You can do multiple actions in one response (e.g., delete a category AND create two new ones).
 
-Action types: create_category | add_quests | remove_category | update_name
-Colors: #e74c3c #e67e22 #f1c40f #27ae60 #1abc9c #3498db #8e44ad #e91e8c #ff6b6b #00b4d8
-Frequencies: daily (XP 20-120) | weekly (XP 150-350) | longterm (XP 400-900)
-Rules: 4-8 quests per category. Proper readable English names. No abbreviations. Names max 40 chars. Desc max 60 chars.`;
+━━━ ACTIONS FORMAT ━━━
+Append at the very end of your response (after your text):
+ACTIONS:[...array of action objects...]
 
+━━━ ACTION TYPES ━━━
+
+1. CREATE CATEGORY (creates a new category with quests inside it):
+{"action":"create_category","name":"EXACT MEANINGFUL NAME","color":"#hex","quests":[...]}
+— "name" must be the actual descriptive name (e.g. "Morning Routine", "Fat Loss", "Study", "Running"). NEVER use "New Category" or "Category" as a name.
+— color options: #e74c3c #e67e22 #f1c40f #27ae60 #1abc9c #3498db #8e44ad #e91e8c #ff6b6b #00b4d8
+
+2. ADD QUESTS TO EXISTING CATEGORY:
+{"action":"add_quests","category_name":"exact name of existing category","quests":[...]}
+— Match category by name (case-insensitive). If no match found, a new category is created automatically.
+
+3. DELETE CATEGORY:
+{"action":"remove_category","category_name":"exact name"}
+— To delete ALL categories: {"action":"remove_all_categories"}
+
+4. DELETE A SINGLE QUEST:
+{"action":"delete_quest","quest_name":"exact quest name"}
+
+5. RENAME CATEGORY:
+{"action":"rename_category","category_name":"old name","new_name":"new name"}
+
+6. UPDATE HERO NAME:
+{"action":"update_name","name":"new hero name"}
+
+━━━ QUEST OBJECT FORMAT ━━━
+{"name":"Quest Name","desc":"Short description","xp":NUMBER,"frequency":"daily"|"weekly"|"longterm"}
+— name: proper English, no abbreviations, no camelCase, max 40 chars
+— desc: max 60 chars, optional
+— xp: daily quests 50–500 | weekly 150–600 | longterm 400–1000
+— frequency: "daily" resets each day, "weekly" resets each week, "longterm" one-time
+
+━━━ MULTI-ACTION EXAMPLE ━━━
+User: "Delete my Nutrition category and add a Keto Diet plan"
+Response text: Done — removed Nutrition and built you a Keto plan.
+ACTIONS:[{"action":"remove_category","category_name":"Nutrition"},{"action":"create_category","name":"Keto Diet","color":"#27ae60","quests":[{"name":"No Carbs Today","desc":"Stay under 20g net carbs","xp":300,"frequency":"daily"},{"name":"Track Macros","desc":"Log all meals","xp":150,"frequency":"daily"}]}]
+
+━━━ RULES ━━━
+- Always execute multi-step requests in one response with multiple actions
+- Category names must be meaningful and descriptive — never generic
+- 4–8 quests per new category
+- After building, add one short punchy motivational line`;
+
+// ── Send message ────────────────────────────────────────────────────────────
 async function sendAIMessage(){
   const input=document.getElementById('ai-input');
   const msg=input.value.trim();
@@ -1005,27 +920,40 @@ async function runSage(){
   showTyping();
   try{
     const GROQ_URL='https://api.groq.com/openai/v1/chat/completions';
-    const body=JSON.stringify({model:'llama-3.3-70b-versatile',stream:false,max_tokens:1000,temperature:0.75,messages:[{role:'system',content:SYSTEM+'\n\n'+getAppContext()},...aiHistory]});
-    const isFileProto=location.protocol==='file:';
+    const body=JSON.stringify({
+      model:'llama-3.3-70b-versatile',
+      stream:false,max_tokens:1200,temperature:0.65,
+      messages:[{role:'system',content:SYSTEM+'\n\n'+getAppContext()},...aiHistory]
+    });
+    const isFile=location.protocol==='file:';
     const PROXY='https://corsproxy.io/?url=';
-    async function tryFetch(url,headers){return fetch(url,{method:'POST',headers,body});}
-    let res;
-    if(!isFileProto){res=await tryFetch(GROQ_URL,{'Content-Type':'application/json','Authorization':'Bearer '+getKey()});}
-    else{res=await tryFetch(PROXY+encodeURIComponent(GROQ_URL),{'Content-Type':'application/json','Authorization':'Bearer '+getKey(),'x-requested-with':'XMLHttpRequest'});}
+    const headers={'Content-Type':'application/json','Authorization':'Bearer '+getKey()};
+    const url=isFile?PROXY+encodeURIComponent(GROQ_URL):GROQ_URL;
+    if(isFile)headers['x-requested-with']='XMLHttpRequest';
+    const res=await fetch(url,{method:'POST',headers,body});
     if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(err.error?.message||'HTTP '+res.status);}
     const data=await res.json();
     const fullResponse=data.choices?.[0]?.message?.content||'';
-    const ai=fullResponse.indexOf('ACTIONS:');
-    const textPart=(ai>=0?fullResponse.slice(0,ai):fullResponse).trim();
-    const actPart=ai>=0?fullResponse.slice(ai+8).trim():null;
+
+    // ── Parse: split text from ACTIONS block ──────────────────────
     const actionLog=[];
-    if(actPart){
+    let textPart=fullResponse;
+    const actionIdx=fullResponse.indexOf('ACTIONS:[');
+    if(actionIdx>=0){
+      textPart=fullResponse.slice(0,actionIdx).trim();
+      const actionStr=fullResponse.slice(actionIdx+8).trim();
+      // Find the closing ] of the top-level array
       try{
-        const jsonStr=actPart.slice(0,actPart.lastIndexOf(']')+1);
+        let depth=0,end=-1;
+        for(let i=0;i<actionStr.length;i++){
+          if(actionStr[i]==='[')depth++;
+          else if(actionStr[i]===']'){depth--;if(depth===0){end=i;break;}}
+        }
+        const jsonStr=actionStr.slice(0,end+1);
         const actions=JSON.parse(jsonStr);
         for(const act of actions)actionLog.push(...executeSageAction(act));
         if(actionLog.length){saveState();renderHome();renderQuests();}
-      }catch(e){console.warn('[Sage] action parse:',e.message);}
+      }catch(e){console.warn('[Sage] parse error:',e.message,fullResponse);}
     }
     appendAssistantMsg(textPart||'Done.',actionLog.length?actionLog:null);
     aiHistory.push({role:'assistant',content:fullResponse});
@@ -1033,131 +961,126 @@ async function runSage(){
   }catch(err){
     removePrevTyping();
     let hint='';
-    if(err.message.includes('401'))hint='\nInvalid key.';
+    if(err.message.includes('401'))hint='\nInvalid API key.';
     else if(err.message.includes('429'))hint='\nRate limited — wait a moment.';
-    else if(err.message.includes('fetch')||err.message.includes('Network')||err.message.includes('Failed'))hint='\n\nNetwork error. Try hosting this file online.';
+    else if(err.message.includes('fetch')||err.message.includes('Network'))hint='\n\nNetwork error. Host this file online to use Sage.';
     appendAssistantMsg('⚠ '+err.message+hint,null);
   }
   aiTyping=false;
   document.getElementById('ai-send-btn').disabled=false;
 }
 
-// Fuzzy name match helper
-function fuzzyFindCat(name){
-  if(!name) return null;
+// ── Fuzzy matchers ──────────────────────────────────────────────────────────
+function findCat(name){
+  if(!name)return null;
   const n=name.toLowerCase().trim();
   return state.categories.find(c=>c.name.toLowerCase()===n)
-    || state.categories.find(c=>c.name.toLowerCase().includes(n)||n.includes(c.name.toLowerCase()));
+    ||state.categories.find(c=>c.name.toLowerCase().includes(n)||n.includes(c.name.toLowerCase()));
 }
-function fuzzyFindQuest(name){
-  if(!name) return null;
+function findQuest(name){
+  if(!name)return null;
   const n=name.toLowerCase().trim();
   for(const cat of state.categories){
     const q=cat.quests.find(q=>q.name.toLowerCase()===n)
       ||cat.quests.find(q=>q.name.toLowerCase().includes(n)||n.includes(q.name.toLowerCase()));
-    if(q) return {cat,q};
+    if(q)return{cat,q};
   }
   return null;
 }
 
+// ── Execute a single action object ─────────────────────────────────────────
 function executeSageAction(act){
   const log=[];
   try{
-    // ── create_category ──
+    // ── create_category ─────────────────────────────────────────
     if(act.action==='create_category'){
-      const id='sage_'+Date.now();
+      // Always use the name the AI provided; fall back only if truly blank
+      const catName=(act.name||'').trim();
+      if(!catName||catName.toLowerCase()==='new category'||catName.toLowerCase()==='category'){
+        log.push('⚠ Sage tried to create a category without a proper name — skipped.');
+        return log;
+      }
+      const id='sage_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
       const color=act.color||CAT_COLORS[state.categories.length%CAT_COLORS.length];
-      const quests=(act.quests||[]).map((q,i)=>({
-        id:`${id}_q${i}`,
-        name:q.name||'Quest',
-        desc:q.desc||'',
-        xp:Math.max(50,Math.min(9999,parseInt(q.xp)||250)),
-        frequency:q.frequency||'daily'
-      }));
-      const catLabel=act.name&&act.name.trim()&&act.name!=='New Category'?act.name.trim():'Unnamed';state.categories.push({id,name:catLabel,color,quests});
-      log.push(`✦ Created "${catLabel}" (${quests.length} quests)`);
+      const quests=buildQuests(act.quests||[],id);
+      state.categories.push({id,name:catName,color,quests});
+      log.push(`Created "${catName}" (${quests.length} quest${quests.length!==1?'s':''})`);
       quests.forEach(q=>log.push(`${freqIcon(q.frequency)} ${q.name} +${q.xp}XP`));
 
-    // ── add_quests ──
-    } else if(act.action==='add_quests'){
-      // Match by category_name (new) or category_id (old)
-      const cat = fuzzyFindCat(act.category_name) || state.categories.find(c=>c.id===act.category_id);
-      if(cat){
-        const newQ=(act.quests||[]).map((q,i)=>({
-          id:`sage_${Date.now()}_${i}`,
-          name:q.name||'Quest',
-          desc:q.desc||'',
-          xp:Math.max(50,Math.min(9999,parseInt(q.xp)||250)),
-          frequency:q.frequency||'daily'
-        }));
-        cat.quests.push(...newQ);
-        log.push(`✦ Added ${newQ.length} quest(s) to "${cat.name}"`);
-        newQ.forEach(q=>log.push(`${freqIcon(q.frequency)} ${q.name} +${q.xp}XP`));
-      } else {
-        // No matching category — create one
-        const id='sage_'+Date.now();
+    // ── add_quests ───────────────────────────────────────────────
+    }else if(act.action==='add_quests'){
+      let cat=findCat(act.category_name);
+      if(!cat){
+        // Auto-create the category if it doesn't exist
+        const catName=(act.category_name||'General').trim();
+        const id='sage_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
         const color=CAT_COLORS[state.categories.length%CAT_COLORS.length];
-        const quests=(act.quests||[]).map((q,i)=>({id:`${id}_q${i}`,name:q.name||'Quest',desc:q.desc||'',xp:Math.max(50,Math.min(9999,parseInt(q.xp)||250)),frequency:q.frequency||'daily'}));
-        const catName=act.category_name||'New Category';
-        state.categories.push({id,name:catName,color,quests});
-        log.push(`✦ Created "${catName}" (${quests.length} quests)`);
-        quests.forEach(q=>log.push(`${freqIcon(q.frequency)} ${q.name} +${q.xp}XP`));
+        cat={id,name:catName,color,quests:[]};
+        state.categories.push(cat);
+        log.push(`Created "${catName}"`);
       }
+      const newQ=buildQuests(act.quests||[],cat.id+'_'+Date.now());
+      cat.quests.push(...newQ);
+      log.push(`Added ${newQ.length} quest${newQ.length!==1?'s':''} to "${cat.name}"`);
+      newQ.forEach(q=>log.push(`${freqIcon(q.frequency)} ${q.name} +${q.xp}XP`));
 
-    // ── remove_category ──
-    } else if(act.action==='remove_category'){
-      // Support "delete all" — if no name given, wipe everything
-      if(!act.category_name && !act.category_id){
-        const names=state.categories.map(c=>c.name);
-        state.categories=[];
-        names.forEach(n=>log.push(`✦ Removed "${n}"`));
-      } else {
-        const cat=fuzzyFindCat(act.category_name)||state.categories.find(c=>c.id===act.category_id);
-        if(cat){
-          const idx=state.categories.indexOf(cat);
-          state.categories.splice(idx,1);
-          log.push(`✦ Removed "${cat.name}"`);
-        } else {
-          log.push(`⚠ Not found: "${act.category_name||act.category_id}"`);
-        }
-      }
-
-    // ── delete_quest ──
-    } else if(act.action==='delete_quest'){
-      if(!act.quest_name){
-        log.push('⚠ No quest name provided');
-      } else {
-        const match=fuzzyFindQuest(act.quest_name);
-        if(match){
-          const idx=match.cat.quests.indexOf(match.q);
-          match.cat.quests.splice(idx,1);
-          log.push(`✦ Deleted "${match.q.name}"`);
-        } else {
-          log.push(`⚠ Quest not found: "${act.quest_name}"`);
-        }
-      }
-
-    // ── rename_category ──
-    } else if(act.action==='rename_category'){
-      const cat=fuzzyFindCat(act.category_name);
+    // ── remove_category ──────────────────────────────────────────
+    }else if(act.action==='remove_category'){
+      const cat=findCat(act.category_name);
       if(cat){
-        const oldName=cat.name;
-        cat.name=act.new_name||cat.name;
-        log.push(`✦ Renamed "${oldName}" → "${cat.name}"`);
-      } else {
-        log.push(`⚠ Not found: "${act.category_name}"`);
+        state.categories.splice(state.categories.indexOf(cat),1);
+        log.push(`Deleted "${cat.name}"`);
+      }else{
+        log.push(`⚠ Category not found: "${act.category_name}"`);
       }
 
-    // ── update_name (hero) ──
-    } else if(act.action==='update_name'){
-      state.heroName=act.name;
-      log.push(`✦ Hero name → "${act.name}"`);
+    // ── remove_all_categories ────────────────────────────────────
+    }else if(act.action==='remove_all_categories'){
+      const names=state.categories.map(c=>c.name);
+      state.categories=[];
+      log.push(`Cleared all ${names.length} categories`);
+
+    // ── delete_quest ─────────────────────────────────────────────
+    }else if(act.action==='delete_quest'){
+      const match=findQuest(act.quest_name);
+      if(match){
+        match.cat.quests.splice(match.cat.quests.indexOf(match.q),1);
+        log.push(`Deleted quest "${match.q.name}"`);
+      }else{
+        log.push(`⚠ Quest not found: "${act.quest_name}"`);
+      }
+
+    // ── rename_category ──────────────────────────────────────────
+    }else if(act.action==='rename_category'){
+      const cat=findCat(act.category_name);
+      if(cat){
+        const old=cat.name;cat.name=act.new_name||cat.name;
+        log.push(`Renamed "${old}" → "${cat.name}"`);
+      }else{
+        log.push(`⚠ Category not found: "${act.category_name}"`);
+      }
+
+    // ── update_name (hero) ───────────────────────────────────────
+    }else if(act.action==='update_name'){
+      state.heroName=act.name;log.push(`Hero name → "${act.name}"`);
     }
   }catch(e){log.push(`Error: ${e.message}`);}
   return log;
 }
+
+// Build a quest array from raw AI objects
+function buildQuests(rawArr,prefix){
+  return rawArr.map((q,i)=>({
+    id:`${prefix}_q${i}_${Date.now()}`,
+    name:(q.name||'Quest').trim(),
+    desc:(q.desc||'').trim(),
+    xp:Math.max(50,Math.min(1000,parseInt(q.xp)||200)),
+    frequency:['daily','weekly','longterm'].includes(q.frequency)?q.frequency:'daily'
+  }));
+}
 function freqIcon(f){return {daily:'🔵',weekly:'🟣',longterm:'🟡'}[f]||'🔵';}
 
+// ── Message rendering ───────────────────────────────────────────────────────
 function appendUserMsg(text){
   const msgs=document.getElementById('ai-messages');
   const div=document.createElement('div');div.className='ai-msg user';
@@ -1165,12 +1088,15 @@ function appendUserMsg(text){
   msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
 }
 function appendAssistantMsg(text,actions){
-  const msgs=document.getElementById('ai-messages');
-  removePrevTyping();
+  const msgs=document.getElementById('ai-messages');removePrevTyping();
   const div=document.createElement('div');div.className='ai-msg assistant';
   div.innerHTML=`<div class="ai-bubble">${escHtml(text)}</div><div class="ai-msg-time">${timeNow()}</div>`;
   msgs.appendChild(div);
-  if(actions&&actions.length){const card=document.createElement('div');card.className='ai-action-card';card.innerHTML=`<div class="ai-action-title">⚡ Actions Taken</div>${actions.map(a=>`<div class="ai-action-item">${escHtml(a)}</div>`).join('')}`;msgs.appendChild(card);}
+  if(actions&&actions.length){
+    const card=document.createElement('div');card.className='ai-action-card';
+    card.innerHTML=`<div class="ai-action-title">⚡ Actions Taken</div>${actions.map(a=>`<div class="ai-action-item">${escHtml(a)}</div>`).join('')}`;
+    msgs.appendChild(card);
+  }
   msgs.scrollTop=msgs.scrollHeight;
 }
 function showTyping(){removePrevTyping();const msgs=document.getElementById('ai-messages');const div=document.createElement('div');div.className='ai-msg assistant';div.id='ai-typing-indicator';div.innerHTML=`<div class="ai-typing"><span></span><span></span><span></span></div>`;msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;}
@@ -1196,7 +1122,8 @@ document.getElementById('confirm-ok-btn').onclick=()=>{if(_confirmCb)_confirmCb(
 function confirmReset(){
   openConfirm('RESET ALL PROGRESS?','Wipes all XP, levels, streaks, and history. Custom quests kept. Permanent.',()=>{
     state.totalXP=0;state.level=1;state.streak=0;state.lastActiveDate=null;
-    state.xpHistory={};state.levelHistory=[];state.dailyDone={};state.weeklyDone={};state.longtermDone={};state.dailyXP={};
+    state.xpHistory={};state.levelHistory={};state.dailyDone={};state.weeklyDone={};state.longtermDone={};state.dailyXP={};
+    state.levelHistory=[];
     saveState();renderHome();renderQuests();showToast('Progress reset. Begin again.');
   });
 }
@@ -1205,71 +1132,27 @@ function confirmReset(){
 //  HELPERS
 // ════════════════════════════════════════
 function showXPPopCenter(text,color='var(--gold2)'){
-  const pop=document.createElement('div');
-  pop.className='xp-pop';
-  pop.textContent=text;
-  pop.style.color=color;
-  pop.style.left='50%';
-  pop.style.transform='translateX(-50%)';
-  pop.style.top='35%';
-  document.body.appendChild(pop);
-  setTimeout(()=>pop.remove(),1500);
+  const pop=document.createElement('div');pop.className='xp-pop';pop.textContent=text;
+  pop.style.color=color;pop.style.left='50%';pop.style.transform='translateX(-50%)';pop.style.top='35%';
+  document.body.appendChild(pop);setTimeout(()=>pop.remove(),1500);
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
 function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function timeNow(){const d=new Date();return `${p2(d.getHours())}:${p2(d.getMinutes())}`;}
 
-// ════════════════════════════════════════
-//  DRAG-TO-SCROLL (suggestions row)
-// ════════════════════════════════════════
+// ── Drag-to-scroll suggestions ──────────────────────────────────────────────
 (function(){
-  const el = document.getElementById('ai-suggestions');
-  if(!el) return;
-  // Track whether this gesture was a drag (>8px) or a tap
-  let startX=0, startScrollLeft=0, dragging=false;
-  const DRAG_THRESHOLD = 8;
-
-  // ── Mouse ──
-  el.addEventListener('mousedown', e=>{
-    dragging=false;
-    startX = e.pageX;
-    startScrollLeft = el.scrollLeft;
-    el.classList.add('dragging');
-    const onMove = mv=>{
-      const dx = mv.pageX - startX;
-      if(Math.abs(dx) > DRAG_THRESHOLD) dragging=true;
-      el.scrollLeft = startScrollLeft - dx;
-    };
-    const onUp = ()=>{
-      el.classList.remove('dragging');
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseup', onUp);
-    };
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onUp);
+  const el=document.getElementById('ai-suggestions');if(!el)return;
+  let startX=0,startScrollLeft=0,dragging=false;
+  el.addEventListener('mousedown',e=>{
+    dragging=false;startX=e.pageX;startScrollLeft=el.scrollLeft;el.classList.add('dragging');
+    const onMove=mv=>{const dx=mv.pageX-startX;if(Math.abs(dx)>8)dragging=true;el.scrollLeft=startScrollLeft-dx;};
+    const onUp=()=>{el.classList.remove('dragging');window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);};
+    window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);
   });
-
-  // ── Touch ──
-  el.addEventListener('touchstart', e=>{
-    dragging=false;
-    startX = e.touches[0].clientX;
-    startScrollLeft = el.scrollLeft;
-  }, {passive:true});
-
-  el.addEventListener('touchmove', e=>{
-    const dx = e.touches[0].clientX - startX;
-    if(Math.abs(dx) > DRAG_THRESHOLD) dragging=true;
-    el.scrollLeft = startScrollLeft - dx;
-  }, {passive:true});
-
-  // ── Block click only if we genuinely dragged ──
-  el.addEventListener('click', e=>{
-    if(dragging){
-      e.stopPropagation();
-      e.preventDefault();
-      dragging=false;
-    }
-  }, true);
+  el.addEventListener('touchstart',e=>{dragging=false;startX=e.touches[0].clientX;startScrollLeft=el.scrollLeft;},{passive:true});
+  el.addEventListener('touchmove',e=>{const dx=e.touches[0].clientX-startX;if(Math.abs(dx)>8)dragging=true;el.scrollLeft=startScrollLeft-dx;},{passive:true});
+  el.addEventListener('click',e=>{if(dragging){e.stopPropagation();e.preventDefault();dragging=false;}},true);
 })();
 
 // ════════════════════════════════════════
