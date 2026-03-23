@@ -1076,7 +1076,19 @@ function executeSageAction(act){
         xp:Math.max(50,Math.min(9999,parseInt(q.xp)||250)),
         frequency:q.frequency||'daily'
       }));
-      const catLabel=act.name&&act.name.trim()&&act.name!=='New Category'?act.name.trim():'Unnamed';state.categories.push({id,name:catLabel,color,quests});
+      // Reject generic names and infer a real one from the quests instead
+      const BAD_NAMES=['new category','category','unnamed','name','untitled','general','misc'];
+      let catLabel=(act.name||'').trim();
+      if(!catLabel||BAD_NAMES.includes(catLabel.toLowerCase())){
+        // Derive name from first quest or the user message context
+        const firstQ=(quests[0]||{}).name||'';
+        const words=firstQ.split(' ');
+        // Use first 1-2 meaningful words of the first quest as a category hint
+        catLabel=words.slice(0,2).join(' ')||'My Goals';
+      }
+      // Title-case it
+      catLabel=catLabel.replace(/\w/g,c=>c.toUpperCase());
+      state.categories.push({id,name:catLabel,color,quests});
       log.push(`✦ Created "${catLabel}" (${quests.length} quests)`);
       quests.forEach(q=>log.push(`${freqIcon(q.frequency)} ${q.name} +${q.xp}XP`));
 
@@ -1100,7 +1112,12 @@ function executeSageAction(act){
         const id='sage_'+Date.now();
         const color=CAT_COLORS[state.categories.length%CAT_COLORS.length];
         const quests=(act.quests||[]).map((q,i)=>({id:`${id}_q${i}`,name:q.name||'Quest',desc:q.desc||'',xp:Math.max(50,Math.min(9999,parseInt(q.xp)||250)),frequency:q.frequency||'daily'}));
-        const catName=act.category_name||'New Category';
+        const BAD2=['new category','category','unnamed','name','untitled','general','misc'];
+        let catName=(act.category_name||'').trim();
+        if(!catName||BAD2.includes(catName.toLowerCase())){
+          catName=((quests[0]||{}).name||'My Goals').split(' ').slice(0,2).join(' ');
+        }
+        catName=catName.replace(/\b\w/g,c=>c.toUpperCase());
         state.categories.push({id,name:catName,color,quests});
         log.push(`✦ Created "${catName}" (${quests.length} quests)`);
         quests.forEach(q=>log.push(`${freqIcon(q.frequency)} ${q.name} +${q.xp}XP`));
